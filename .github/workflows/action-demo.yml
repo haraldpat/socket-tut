@@ -1,70 +1,12 @@
-name: CI/CD Pipeline
+name: "Scheduler Task"
 
-on: [push, pull_request]
-
-permissions:
-  contents: read
-  actions: read
-  checks: write
-  deployments: write
-  issues: write
-  packages: read
-  pull-requests: write
-  repository-projects: write
-  security-events: read
-  statuses: write
+on:
+  schedule:
+    - cron : '*/2 * * * *'
 
 jobs:
-  build:
+  hello_world:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Build Docker image for server
-      run: docker build -t my-app-server ./server
-
-    - name: Build Docker image for client
-      run: docker build -t my-app-client ./client
-
-    - name: Save Docker sever images as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-app-server
-        path: my-app-server.tar
-
-    - name: Save Docker client images as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-app-client
-        path: my-app-client.tar
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Download sever artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: my-app-server
-        path: my-app-server.tar
-
-    - name: Download client artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: my-app-client
-        path: my-app-client.tar
-  
-    - name: Load Docker server image
-      run: docker load -i my-app-sever.tar
-
-    - name: Load Docker client image
-      run: docker load -i my-app-client.tar
-
-    - name: Run Docker server container
-      run: docker run -d -p 3001:3001 my-app-server
-
-    - name: Run Docker client container
-      run: docker run -d -p 3000:3000 my-app-client
+     - name: "Show current time"
+       run: echo "The current server time is $(date +'%Y-%m-%d %H:%M:%S')"
