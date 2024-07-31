@@ -1,5 +1,3 @@
-name: "Scheduler Task"
-
 on:
   schedule:
     - cron : '*/2 * * * *'
