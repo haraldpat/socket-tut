@@ -3,6 +3,14 @@ name: Greeting Test
 on: [push]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print GitHub Context
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "Context: ${{ toJSON(github) }}"
   greet:
     runs-on: ubuntu-latest
     steps:
